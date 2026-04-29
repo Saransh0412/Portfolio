@@ -75,7 +75,6 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 1.4rem 4rem;
     background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent);
-    backdrop-filter: blur(2px);
     transition: background 0.4s;
   }
   nav.scrolled { background: rgba(8,8,8,0.97); border-bottom: 1px solid var(--border); }
@@ -339,7 +338,7 @@
   #skills { background: var(--bg); }
   .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
@@ -674,11 +673,11 @@
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
-    nav { padding: 1.2rem 1.5rem; }
-    .nav-links { display: none; flex-direction: column; position: fixed; inset: 0; background: rgba(8,8,8,0.97); justify-content: center; align-items: center; gap: 2.5rem; z-index: 99; }
+    nav { padding: 1.2rem 1.5rem; z-index: 200; background: #080808; }
+    .nav-links { display: none; flex-direction: column; position: fixed; inset: 0; background: #080808; justify-content: center; align-items: center; gap: 2.5rem; z-index: 199; }
     .nav-links.open { display: flex; }
     .nav-links a { font-size: 1rem; }
-    .hamburger { display: flex; z-index: 101; position: relative; }
+    .hamburger { display: flex; z-index: 201; position: relative; }
     #hero { grid-template-columns: 1fr; }
     .hero-right { display: none; }
     .hero-left { padding: 8rem 1.5rem 4rem; }
@@ -688,6 +687,7 @@
     .about-img-wrap { max-width: 260px; }
     .edu-grid { grid-template-columns: 1fr; }
     .projects-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
     .footer-strip { flex-direction: column; gap: 0.5rem; text-align: center; }
     .hero-scroll-hint { left: 1.5rem; }
     body { cursor: auto; }
@@ -1100,9 +1100,13 @@
   function toggleMenu() {
     const links = document.getElementById('navLinks');
     links.classList.toggle('open');
+    document.documentElement.style.overflow = links.classList.contains('open') ? 'hidden' : '';
   }
   document.querySelectorAll('#navLinks a').forEach(a => {
-    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+      document.documentElement.style.overflow = '';
+    });
   });
 
   // SCROLL REVEAL
